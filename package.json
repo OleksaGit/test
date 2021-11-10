@@ -22,6 +22,7 @@
     "mongoose": "^6.0.12"
   },
   "devDependencies": {
+    "lru-cache": "^6.0.0",
     "uuid": "^8.3.2"
   }
 }
