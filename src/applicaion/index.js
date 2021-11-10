@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const { v4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const path = require('path')
 //todo replace with env
 const privateKey = fs.readFileSync('private.key', 'utf8');
 
@@ -13,14 +14,15 @@ const jsonParser = express.json();
 //todo move to new page
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const LRU = require("lru-cache")
-  , options = { max: 500
-  , length: function (n, key) { return n * 2 + key.length }
-  , dispose: function (key, n) { n.close() }
-  , maxAge: 1000 * 60 * 60 }
+const LRU = require('lru-cache')
+  , options = {
+  max: 500
+  , length: function (n, key) { return n * 2 + key.length; }
+  , dispose: function (key, n) { n.close(); }
+  , maxAge: 1000 * 60 * 60
+}
   , cache = new LRU(options)
-  , otherCache = new LRU(50)
-
+  , otherCache = new LRU(50);
 
 const userSchema = new Schema({
   id: { type: String, minlength: 36, maxlength: 36 },
@@ -187,10 +189,12 @@ app.post('/api/transaction/', async function (req, res) {
     timestamp: Date.now(),
   });
 
-  await fs.writeFile(`transaction_${transactionId}.txt`, `Transaction №${transactionId}\n
+  await fs.writeFile(`../transactions/transaction_${transactionId}.txt`,
+    `Transaction №${transactionId}\n
    From: ${userGivePay.name} ${userGivePay.surname}\n
    To: ${userReceivesPay.name} ${userReceivesPay.surname}\n
-   Amount: ${payment}`, (err) => {
+   Amount: ${payment}`,
+    (err) => {
       if (err) throw err;
       console.log('write file ok');
     }
@@ -203,7 +207,7 @@ app.post('/api/transaction/', async function (req, res) {
 app.get('/api/history/:id', async function (req, res) {
   if (req.params.id) {
     const userTransaction = await Transaction.find({ from: req.params.id });
-    let result = []
+    let result = [];
     for (let i = 0; i < userTransaction.length; i++) {
       const [{ _doc: { name, surname } }] = await User.find({ id: userTransaction[i]._doc.from });
       const resultObj = {
@@ -212,11 +216,29 @@ app.get('/api/history/:id', async function (req, res) {
         timestamp: userTransaction[i]._doc.timestamp,
         id: userTransaction[i]._doc.id,
       };
-      result.push(resultObj)
+      result.push(resultObj);
     }
     res.send(result);
   }
 });
+
+app.get('/api/get_doc/:docId', async function (req,res) {
+  if (req.params.docId) {
+    const transactionDoc = path.resolve(`../transactions/transaction_${req.params.docId}.txt`)
+    fs.open(transactionDoc, 'r', (err, fd) => {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          console.error('file does not exist');
+          return res.send('doc not found');
+        }
+        throw err;
+      } else {
+        res.sendFile(transactionDoc)
+      }
+    })
+  }
+ // new HttpError (400, 'bad request');
+}) 
 
 app.use(function (err, req, res, next) {
   if (err instanceof HttpError) {

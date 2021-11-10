@@ -1,7 +1,0 @@
-Transaction №80a7a0f2-1d3f-4b1e-93b7-6249dbc6d33b
-
-   From: Alex Jonson
-
-   To: Bill Gates
-
-   Amount: 20
