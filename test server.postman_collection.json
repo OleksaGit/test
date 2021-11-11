@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "cb58a13c-2621-45fc-a58c-028d9a7b1b1d",
+		"name": "test server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registry",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Alex\",\n    \"surname\" : \"Jonson\",\n    \"login\" : \"admin\",\n    \"password\" : \"pass\",\n    \"email\" : \"test@gmail.com\",\n    \"amount\" : \"1000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/reg",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registry Copy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Bill\",\n    \"surname\" : \"Gates\",\n    \"login\" : \"BillGates\",\n    \"password\" : \"pass\",\n    \"email\" : \"bill@gmail.com\",\n    \"amount\" : \"1000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/reg",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Alex\",\n    \"surname\" : \"Antonyuk\",\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/authorize/a80a4d0f-145f-4623-b369-b6108cca84e9",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"authorize",
+						"a80a4d0f-145f-4623-b369-b6108cca84e9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authorization and getToken",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWxleCIsInN1cm5hbWUiOiJKb25lcyIsImlkIjoiYTgwYTRkMGYtMTQ1Zi00NjIzLWIzNjktYjYxMDhjY2E4NGU5IiwiaWF0IjoxNjM2MzA4OTg3fQ.aHb7cHLuSxUgJEC__2kQE8t9M0IkyYFrxgLP6gIAviA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\" : \"admin\",\n    \"password\" : \"pass\",\n}",
+					"options": {
+						"raw": {
+							"language": "javascript"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/auth",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWxleCIsInN1cm5hbWUiOiJKb25zb24iLCJpZCI6IjFkYjgzMjE0LWE2NmUtNGFhNS04ZWM3LWQ5YjgxMTBkZGU3NyIsImlhdCI6MTYzNjQ5MzUzMn0.LrHSXup-4MG_bsJ5Xnkn7UPn2nEU9qs4TrIWKwIAVBs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"to\" : \"729ebbed-be7b-480a-8dd2-3757ca228006\",\n\"payment\" : \"20\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/transaction/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"transaction",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get history user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/history/1e76671e-a334-493f-b163-75766d74c3dd",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"history",
+						"1e76671e-a334-493f-b163-75766d74c3dd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transaction doc",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWxleCIsInN1cm5hbWUiOiJKb25zb24iLCJpZCI6IjFlNzY2NzFlLWEzMzQtNDkzZi1iMTYzLTc1NzY2ZDc0YzNkZCIsImlhdCI6MTYzNjUyOTYwMH0.eT7IA6VJWgpIwpezywQT56qvENa-vnnhcKyImvIKFjg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/get_doc/c4f69398-b6dd-4ba2-b9c5-e62ee1e5d9df",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"get_doc",
+						"c4f69398-b6dd-4ba2-b9c5-e62ee1e5d9df"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
