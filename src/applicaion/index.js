@@ -10,7 +10,6 @@ const privateKey = fs.readFileSync('private.key', 'utf8');
 
 const express = require('express');
 const app = express();
-const jsonParser = express.json();
 //todo move to new page
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -33,9 +32,7 @@ const userSchema = new Schema({
   email: { type: String, minlength: 7 },
   amount: { type: Number },
 });
-// const billSchema = new Schema({
-//   amount: { type: Number }
-// });
+
 const transactionSchema = new Schema({
   id: { type: String, minlength: 36, maxlength: 36 },
   from: { type: String, minlength: 36, maxlength: 36 },
@@ -101,25 +98,25 @@ app.post('/api/reg', async function (req, res) {
   }
 });
 
-app.get('/api/authorize/:id', async function (req, res) {
-
-  //const regId = req.params.id
-  // const regId = await User.find({
-  //    $and: [
-  //      {name: req.query.name},
-  //      {surname: req.query.surname}
-  //    ]})
-
-  if (req.params.id !== 0) {
-    const [{ _doc: user }] = await User.find({ id: req.params.id });
-
-    const token = jwt.sign({ name: user.name, surname: user.surname, id: user.id }, privateKey, { algorithm: 'HS256' });
-    return res.send(`get token is done ${token}`);
-  }
-
-  return res.send('User not registered');
-
-});
+// app.get('/api/authorize/:id', async function (req, res) {
+//
+//   //const regId = req.params.id
+//   // const regId = await User.find({
+//   //    $and: [
+//   //      {name: req.query.name},
+//   //      {surname: req.query.surname}
+//   //    ]})
+//
+//   if (req.params.id !== 0) {
+//     const [{ _doc: user }] = await User.find({ id: req.params.id });
+//
+//     const token = jwt.sign({ name: user.name, surname: user.surname, id: user.id }, privateKey, { algorithm: 'HS256' });
+//     return res.send(`get token is done ${token}`);
+//   }
+//
+//   return res.send('User not registered');
+//
+// });
 
 app.post('/api/auth', async (req, res, next) => {
   const { login, password } = req.body;
@@ -147,6 +144,7 @@ app.post('/api/auth', async (req, res, next) => {
   next(new HttpError(404, 'User not found'));
 });
 
+//todo replace all block code
 app.use(function (req, res, next) {
     if (req.headers.authorization) {
       jwt.verify(
